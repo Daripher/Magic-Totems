@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "totemsofpower:block/nether_totem",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "totemsofpower:block/nether_totem"
+    },
+    "facing=south": {
+      "model": "totemsofpower:block/nether_totem",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "totemsofpower:block/nether_totem",
+      "y": 270
+    }
+  }
+}

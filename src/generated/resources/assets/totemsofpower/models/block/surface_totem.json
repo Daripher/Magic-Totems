@@ -1,0 +1,7 @@
+{
+  "parent": "totemsofpower:block/totem_animals",
+  "textures": {
+    "0": "totemsofpower:block/surface_totem",
+    "particle": "minecraft:block/oak_log"
+  }
+}

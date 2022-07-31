@@ -1,0 +1,7 @@
+{
+  "parent": "totemsofpower:block/totem_animals",
+  "textures": {
+    "0": "totemsofpower:block/underground_totem",
+    "particle": "minecraft:block/mossy_cobblestone"
+  }
+}
