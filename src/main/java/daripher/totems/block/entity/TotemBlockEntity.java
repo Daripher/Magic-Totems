@@ -6,6 +6,7 @@ import java.util.Random;
 
 import javax.annotation.Nullable;
 
+import daripher.totems.config.Config;
 import daripher.totems.init.TotemsBlockEntities;
 import daripher.totems.init.TotemsBlocks;
 import net.minecraft.Util;
@@ -125,8 +126,11 @@ public class TotemBlockEntity extends BlockEntity
 			Random random = new Random(getBlockPos().asLong());
 			List<MobEffect> effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().collect(ArrayList::new, (list, entry) -> list.add(entry.getValue()), (list1, list2) -> list1.addAll(list2));
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
-			int duration = (10 + random.nextInt(111)) * 20;
-			int amplifier = random.nextInt(5);
+			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
+			int minDuration = Config.COMMON.minEffectDuration.get();
+			int maxDuration = Config.COMMON.maxEffectDuration.get();
+			int duration = (minDuration + random.nextInt(maxDuration - minDuration + 1)) * 20;
+			int amplifier = random.nextInt(maxAmplifier + 1);
 			effectInstance = new MobEffectInstance(effect, duration, amplifier);
 			maxCooldown = duration * 2;
 			setChanged();
