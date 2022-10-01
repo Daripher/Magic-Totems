@@ -1,5 +1,7 @@
 package daripher.totems.config;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -20,7 +22,9 @@ public class Config
 		public final ConfigValue<Integer> minCooldown;
 		public final ConfigValue<Integer> maxCooldown;
 		public final ConfigValue<Boolean> shuffle;
-		
+		public final ConfigValue<List<String>> blacklistedEffects;
+		public final ConfigValue<List<String>> whitelistedEffects;
+
 		public Common(ForgeConfigSpec.Builder builder)
 		{
 			Predicate<Object> positiveOrZeroInteger = o -> o instanceof Integer && (Integer) o >= 0;
@@ -32,6 +36,8 @@ public class Config
 			minCooldown = builder.define("min_cooldown", 20, positiveInteger);
 			maxCooldown = builder.define("max_cooldown", 240, positiveInteger);
 			shuffle = builder.define("shuffle", true);
+			blacklistedEffects = builder.define("blacklist", new ArrayList<String>());
+			whitelistedEffects = builder.define("whitelist", new ArrayList<String>());
 			builder.pop();
 		}
 	}

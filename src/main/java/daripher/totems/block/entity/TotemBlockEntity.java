@@ -143,6 +143,16 @@ public class TotemBlockEntity extends BlockEntity
 			}
 			
 			List<MobEffect> effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().collect(ArrayList::new, (list, entry) -> list.add(entry.getValue()), (list1, list2) -> list1.addAll(list2));
+			
+			if (!Config.COMMON.whitelistedEffects.get().isEmpty())
+			{
+				effects.removeIf(effect -> !Config.COMMON.whitelistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
+			}
+			else if (!Config.COMMON.blacklistedEffects.get().isEmpty())
+			{
+				effects.removeIf(effect -> Config.COMMON.blacklistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
+			}
+			
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
 			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
 			int minDuration = Config.COMMON.minEffectDuration.get();
