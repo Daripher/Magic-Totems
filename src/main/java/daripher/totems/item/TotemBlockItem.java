@@ -36,6 +36,13 @@ public class TotemBlockItem extends BlockItem
 	{
 		MobEffectInstance effect = getMobEffect(stack);
 		List<Pair<Attribute, AttributeModifier>> list1 = Lists.newArrayList();
+		boolean effectHidden = stack.getOrCreateTag().getCompound("BlockEntityTag").getBoolean("EffectHidden");
+		
+		if (effectHidden)
+		{
+			components.add(Component.translatable("tooltip.totems.effect_hidden").withStyle(ChatFormatting.GRAY));
+			return;
+		}
 		
 		if (effect == null)
 		{

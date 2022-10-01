@@ -7,7 +7,9 @@ import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 
+import daripher.totems.TotemsMod;
 import daripher.totems.block.entity.TotemBlockEntity;
+import daripher.totems.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -21,6 +23,8 @@ import net.minecraft.world.effect.MobEffectInstance;
 
 public class TotemEffectRenderer implements BlockEntityRenderer<TotemBlockEntity>
 {
+	private static final ResourceLocation MYSTERY_EFFECT_ICON = new ResourceLocation(TotemsMod.MOD_ID, "textures/mob_effect/mystery_effect.png");
+	
 	public TotemEffectRenderer(BlockEntityRendererProvider.Context ctx)
 	{
 	}
@@ -42,7 +46,18 @@ public class TotemEffectRenderer implements BlockEntityRenderer<TotemBlockEntity
 		MobEffectTextureManager mobeffecttexturemanager = minecraft.getMobEffectTextures();
 		MobEffectInstance effect = entity.getEffect();
 		TextureAtlasSprite effectTexture = mobeffecttexturemanager.get(effect.getEffect());
-		ResourceLocation effectTextureLocation = effectTexture.atlas().location();
+		ResourceLocation effectTextureLocation;
+		boolean effectHidden = Config.COMMON.mysteryIcon.get() && entity.isEffectHidden();
+		
+		if (effectHidden)
+		{
+			effectTextureLocation = MYSTERY_EFFECT_ICON;
+		}
+		else
+		{
+			effectTextureLocation = effectTexture.atlas().location();
+		}
+		
 		RenderSystem.setShaderTexture(0, effectTextureLocation);
 		RenderType renderType = RenderType.entityCutout(effectTextureLocation);
 		float iconSize = 0.5F;
@@ -52,10 +67,10 @@ public class TotemEffectRenderer implements BlockEntityRenderer<TotemBlockEntity
 		float x2 = x1 + iconSize;
 		float z1 = 0.75F;
 		float z2 = z1;
-		float u1 = effectTexture.getU0();
-		float u2 = effectTexture.getU1();
-		float v1 = effectTexture.getV0();
-		float v2 = effectTexture.getV1();
+		float u1 = effectHidden ? 1 : effectTexture.getU0();
+		float u2 = effectHidden ? 0 : effectTexture.getU1();
+		float v1 = effectHidden ? 0 : effectTexture.getV0();
+		float v2 = effectHidden ? 1 : effectTexture.getV1();
 		poseStack.pushPose();
 		poseStack.translate(0.5F, 0.0F, 0.5F);
 		poseStack.mulPose(Vector3f.YP.rotationDegrees(entity.getEffectAnimation(partialTicks)));

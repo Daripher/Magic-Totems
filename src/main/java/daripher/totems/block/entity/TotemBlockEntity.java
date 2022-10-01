@@ -32,6 +32,7 @@ public class TotemBlockEntity extends BlockEntity
 	private int effectAnimation;
 	private int cooldown;
 	private int maxCooldown;
+	private boolean effectHidden;
 	
 	public TotemBlockEntity(BlockPos blockPos, BlockState blockState)
 	{
@@ -52,6 +53,7 @@ public class TotemBlockEntity extends BlockEntity
 		effectInstance = MobEffectInstance.load(tag.getCompound("Effect"));
 		cooldown = tag.getInt("Cooldown");
 		maxCooldown = tag.getInt("MaxCooldown");
+		effectHidden = tag.getBoolean("EffectHidden");
 	}
 	
 	@Override
@@ -61,6 +63,7 @@ public class TotemBlockEntity extends BlockEntity
 		tag.put("Effect", getEffect().save(new CompoundTag()));
 		tag.putInt("Cooldown", cooldown);
 		tag.putInt("MaxCooldown", maxCooldown);
+		tag.putBoolean("EffectHidden", effectHidden);
 	}
 	
 	@Override
@@ -69,6 +72,7 @@ public class TotemBlockEntity extends BlockEntity
 		stack.getOrCreateTagElement("BlockEntityTag").put("Effect", getEffect().save(new CompoundTag()));
 		stack.getOrCreateTagElement("BlockEntityTag").putInt("Cooldown", cooldown);
 		stack.getOrCreateTagElement("BlockEntityTag").putInt("MaxCooldown", maxCooldown);
+		stack.getOrCreateTagElement("BlockEntityTag").putBoolean("EffectHidden", effectHidden);
 	}
 	
 	@Override
@@ -90,6 +94,11 @@ public class TotemBlockEntity extends BlockEntity
 			player.addEffect(getEffect());
 			cooldown = maxCooldown;
 			
+			if (effectHidden && Config.COMMON.revealAfterUse.get())
+			{
+				effectHidden ^= true;
+			}
+			
 			if (Config.COMMON.shuffle.get())
 			{
 				generateRandomEffect();
@@ -97,6 +106,7 @@ public class TotemBlockEntity extends BlockEntity
 			else
 			{
 				setChanged();
+				level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
 			}
 		}
 	}
@@ -127,6 +137,11 @@ public class TotemBlockEntity extends BlockEntity
 		return cooldown;
 	}
 	
+	public boolean isEffectHidden()
+	{
+		return effectHidden;
+	}
+	
 	private void generateRandomEffect()
 	{
 		if (!level.isClientSide)
@@ -153,6 +168,7 @@ public class TotemBlockEntity extends BlockEntity
 				effects.removeIf(effect -> Config.COMMON.blacklistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
 			}
 			
+			effectHidden = Config.COMMON.mysteryIcon.get();
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
 			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
 			int minDuration = Config.COMMON.minEffectDuration.get();
