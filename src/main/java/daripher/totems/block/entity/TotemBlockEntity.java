@@ -16,6 +16,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -166,6 +167,11 @@ public class TotemBlockEntity extends BlockEntity
 			else if (!Config.COMMON.blacklistedEffects.get().isEmpty())
 			{
 				effects.removeIf(effect -> Config.COMMON.blacklistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
+			}
+			
+			if (Config.COMMON.excludeNegativeEffects.get())
+			{
+				effects.removeIf(effect -> effect.getCategory() == MobEffectCategory.HARMFUL);
 			}
 			
 			effectHidden = Config.COMMON.mysteryIcon.get();

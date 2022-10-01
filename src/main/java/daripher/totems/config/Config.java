@@ -26,7 +26,8 @@ public class Config
 		public final ConfigValue<Boolean> revealAfterUse;
 		public final ConfigValue<List<String>> blacklistedEffects;
 		public final ConfigValue<List<String>> whitelistedEffects;
-
+		public final ConfigValue<Boolean> excludeNegativeEffects;
+		
 		public Common(ForgeConfigSpec.Builder builder)
 		{
 			Predicate<Object> positiveOrZeroInteger = o -> o instanceof Integer && (Integer) o >= 0;
@@ -42,6 +43,7 @@ public class Config
 			revealAfterUse = builder.define("reveal_after_use", true);
 			blacklistedEffects = builder.define("blacklist", new ArrayList<String>());
 			whitelistedEffects = builder.define("whitelist", new ArrayList<String>());
+			excludeNegativeEffects = builder.define("exclude_negative", false);
 			builder.pop();
 		}
 	}
