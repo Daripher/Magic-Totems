@@ -129,10 +129,12 @@ public class TotemBlockEntity extends BlockEntity
 			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
 			int minDuration = Config.COMMON.minEffectDuration.get();
 			int maxDuration = Config.COMMON.maxEffectDuration.get();
+			int minCooldown = Config.COMMON.minCooldown.get();
+			int maxCooldown = Config.COMMON.maxCooldown.get();
 			int duration = (minDuration + random.nextInt(maxDuration - minDuration + 1)) * 20;
 			int amplifier = random.nextInt(maxAmplifier + 1);
 			effectInstance = new MobEffectInstance(effect, duration, amplifier);
-			maxCooldown = duration * 2;
+			this.maxCooldown = (minCooldown + random.nextInt(maxCooldown - minCooldown + 1)) * 20;
 			setChanged();
 		}
 	}
