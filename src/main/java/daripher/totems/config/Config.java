@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import org.apache.commons.lang3.tuple.Pair;
 
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 
@@ -46,6 +47,12 @@ public class Config
 			excludeNegativeEffects = builder.define("exclude_negative", false);
 			builder.pop();
 		}
+	}
+	
+	public static class AllowedEffects
+	{
+		public static final List<MobEffect> EFFECTS_LIST = new ArrayList<>();
+		public static boolean initialized;
 	}
 	
 	static

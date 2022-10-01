@@ -147,6 +147,53 @@ public class TotemBlockEntity extends BlockEntity
 	{
 		if (!level.isClientSide)
 		{
+			if (!Config.AllowedEffects.initialized)
+			{
+				List<MobEffect> effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().collect(ArrayList::new, (list, entry) -> list.add(entry.getValue()), (list1, list2) -> list1.addAll(list2));
+				
+				if (!Config.COMMON.whitelistedEffects.get().isEmpty())
+				{
+					Config.COMMON.whitelistedEffects.get().forEach(effectId ->
+					{
+						String[] splitEffectId = effectId.split(":");
+						
+						if (splitEffectId.length == 2 && splitEffectId[1].equals("*"))
+						{
+							effects.removeIf(effect -> !ForgeRegistries.MOB_EFFECTS.getKey(effect).getNamespace().equals(splitEffectId[0]));
+						}
+					});
+					
+					effects.removeIf(effect -> !Config.COMMON.whitelistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
+				}
+				else if (!Config.COMMON.blacklistedEffects.get().isEmpty())
+				{
+					Config.COMMON.blacklistedEffects.get().forEach(effectId ->
+					{
+						String[] splitEffectId = effectId.split(":");
+						
+						if (splitEffectId.length == 2 && splitEffectId[1].equals("*"))
+						{
+							effects.removeIf(effect -> ForgeRegistries.MOB_EFFECTS.getKey(effect).getNamespace().equals(splitEffectId[0]));
+						}
+					});
+					
+					effects.removeIf(effect -> Config.COMMON.blacklistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
+				}
+				
+				if (Config.COMMON.excludeNegativeEffects.get())
+				{
+					effects.removeIf(effect -> effect.getCategory() == MobEffectCategory.HARMFUL);
+				}
+				
+				Config.AllowedEffects.EFFECTS_LIST.addAll(effects);
+				Config.AllowedEffects.initialized = true;
+			}
+			
+			if (Config.AllowedEffects.EFFECTS_LIST.isEmpty())
+			{
+				return;
+			}
+			
 			Random random;
 			
 			if (effectInstance == null)
@@ -158,22 +205,7 @@ public class TotemBlockEntity extends BlockEntity
 				random = new Random(effectInstance.hashCode());
 			}
 			
-			List<MobEffect> effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().collect(ArrayList::new, (list, entry) -> list.add(entry.getValue()), (list1, list2) -> list1.addAll(list2));
-			
-			if (!Config.COMMON.whitelistedEffects.get().isEmpty())
-			{
-				effects.removeIf(effect -> !Config.COMMON.whitelistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
-			}
-			else if (!Config.COMMON.blacklistedEffects.get().isEmpty())
-			{
-				effects.removeIf(effect -> Config.COMMON.blacklistedEffects.get().contains(ForgeRegistries.MOB_EFFECTS.getKey(effect).toString()));
-			}
-			
-			if (Config.COMMON.excludeNegativeEffects.get())
-			{
-				effects.removeIf(effect -> effect.getCategory() == MobEffectCategory.HARMFUL);
-			}
-			
+			List<MobEffect> effects = Config.AllowedEffects.EFFECTS_LIST;
 			effectHidden = Config.COMMON.mysteryIcon.get();
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
 			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
