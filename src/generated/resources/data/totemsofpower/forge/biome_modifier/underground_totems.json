@@ -1,5 +1,5 @@
 {
   "type": "totemsofpower:totems",
-  "biomes": "forge:is_overworld",
+  "biomes": "minecraft:is_overworld",
   "feature": "totemsofpower:underground_totems"
 }

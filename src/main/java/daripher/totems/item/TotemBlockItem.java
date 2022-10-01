@@ -11,6 +11,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffectUtil;
@@ -45,6 +46,7 @@ public class TotemBlockItem extends BlockItem
 			MutableComponent mutablecomponent = Component.translatable(effect.getDescriptionId());
 			MobEffect mobeffect = effect.getEffect();
 			Map<Attribute, AttributeModifier> map = mobeffect.getAttributeModifiers();
+			
 			if (!map.isEmpty())
 			{
 				for (Map.Entry<Attribute, AttributeModifier> entry : map.entrySet())
@@ -79,6 +81,7 @@ public class TotemBlockItem extends BlockItem
 				AttributeModifier attributemodifier2 = pair.getSecond();
 				double d0 = attributemodifier2.getAmount();
 				double d1;
+				
 				if (attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_BASE && attributemodifier2.getOperation() != AttributeModifier.Operation.MULTIPLY_TOTAL)
 				{
 					d1 = attributemodifier2.getAmount();
@@ -100,7 +103,15 @@ public class TotemBlockItem extends BlockItem
 							Component.translatable(pair.getFirst().getDescriptionId())).withStyle(ChatFormatting.RED));
 				}
 			}
-		}		
+		}
+		
+		if (effect != null)
+		{
+			int cooldown = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("MaxCooldown");
+			String formattedCooldown = StringUtil.formatTickDuration(cooldown);
+			components.add(CommonComponents.EMPTY);
+			components.add(Component.translatable("tooltip.totems.cooldown", formattedCooldown).withStyle(ChatFormatting.GRAY));
+		}
 	}
 	
 	private MobEffectInstance getMobEffect(ItemStack stack)
