@@ -89,7 +89,15 @@ public class TotemBlockEntity extends BlockEntity
 		{
 			player.addEffect(getEffect());
 			cooldown = maxCooldown;
-			setChanged();
+			
+			if (Config.COMMON.shuffle.get())
+			{
+				generateRandomEffect();
+			}
+			else
+			{
+				setChanged();
+			}
 		}
 	}
 	
@@ -123,7 +131,17 @@ public class TotemBlockEntity extends BlockEntity
 	{
 		if (!level.isClientSide)
 		{
-			Random random = new Random(getBlockPos().asLong());
+			Random random;
+			
+			if (effectInstance == null)
+			{
+				random = new Random(getBlockPos().asLong());
+			}
+			else
+			{
+				random = new Random(effectInstance.hashCode());
+			}
+			
 			List<MobEffect> effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().collect(ArrayList::new, (list, entry) -> list.add(entry.getValue()), (list1, list2) -> list1.addAll(list2));
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
 			int maxAmplifier = Config.COMMON.maxEffectAmplifier.get();
@@ -136,6 +154,7 @@ public class TotemBlockEntity extends BlockEntity
 			effectInstance = new MobEffectInstance(effect, duration, amplifier);
 			this.maxCooldown = (minCooldown + random.nextInt(maxCooldown - minCooldown + 1)) * 20;
 			setChanged();
+			level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 2);
 		}
 	}
 	

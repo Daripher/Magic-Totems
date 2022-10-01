@@ -52,14 +52,11 @@ public class TotemTopBlockEntity extends BlockEntity
 	@Nullable
 	public MobEffectInstance getEffect()
 	{
-		if (effectInstance == null)
+		TotemBlockEntity bottomBlockEntity = level.getBlockEntity(getBlockPos().below(), TotemsBlockEntities.TOTEM.get()).orElse(null);
+		
+		if (bottomBlockEntity != null)
 		{
-			TotemBlockEntity bottomBlockEntity = level.getBlockEntity(getBlockPos().below(), TotemsBlockEntities.TOTEM.get()).orElse(null);
-			
-			if (bottomBlockEntity != null)
-			{
-				effectInstance = bottomBlockEntity.getEffect();
-			}
+			effectInstance = bottomBlockEntity.getEffect();
 		}
 		
 		if (effectInstance == null)

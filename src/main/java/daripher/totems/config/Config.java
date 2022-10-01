@@ -19,6 +19,7 @@ public class Config
 		public final ConfigValue<Integer> maxEffectDuration;
 		public final ConfigValue<Integer> minCooldown;
 		public final ConfigValue<Integer> maxCooldown;
+		public final ConfigValue<Boolean> shuffle;
 		
 		public Common(ForgeConfigSpec.Builder builder)
 		{
@@ -30,6 +31,7 @@ public class Config
 			maxEffectDuration = builder.define("max_duration", 120, positiveInteger);
 			minCooldown = builder.define("min_cooldown", 20, positiveInteger);
 			maxCooldown = builder.define("max_cooldown", 240, positiveInteger);
+			shuffle = builder.define("shuffle", true);
 			builder.pop();
 		}
 	}
