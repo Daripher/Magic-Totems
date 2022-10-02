@@ -27,9 +27,9 @@ public class TotemsConfiguredFeature
 	public static ConfiguredFeature<?, ?> create(RegistryObject<Block> blockObject, TagKey<Block> blockBelow)
 	{
 		BlockPredicate blockPredicate = BlockPredicate.allOf(
-				BlockPredicate.matchesTag(BlockPos.ZERO.below(), blockBelow),
-				BlockPredicate.matchesBlocks(Blocks.AIR),
-				BlockPredicate.matchesBlocks(BlockPos.ZERO.above(), Blocks.AIR));
+				BlockPredicate.matchesTag(blockBelow, BlockPos.ZERO.below()),
+				BlockPredicate.matchesBlock(Blocks.AIR, BlockPos.ZERO),
+				BlockPredicate.matchesBlock(Blocks.AIR, BlockPos.ZERO.above()));
 		BlockPredicateFilter blockPredicateFilter = BlockPredicateFilter.forPredicate(blockPredicate);
 		BlockStateProvider blockStateProvider = new WeightedStateProvider(new SimpleWeightedRandomList.Builder<BlockState>()
 				.add(blockObject.get().defaultBlockState().setValue(TotemBlock.FACING, Direction.EAST), 1)

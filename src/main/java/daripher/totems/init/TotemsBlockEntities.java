@@ -10,7 +10,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class TotemsBlockEntities
 {
-	public static final DeferredRegister<BlockEntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, TotemsMod.MOD_ID);
+	public static final DeferredRegister<BlockEntityType<?>> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, TotemsMod.MOD_ID);
 	
 	public static final RegistryObject<BlockEntityType<TotemBlockEntity>> TOTEM = REGISTRY.register("totem", TotemBlockEntity::createType);
 	public static final RegistryObject<BlockEntityType<TotemTopBlockEntity>> TOTEM_TOP = REGISTRY.register("totem_top", TotemTopBlockEntity::createType);

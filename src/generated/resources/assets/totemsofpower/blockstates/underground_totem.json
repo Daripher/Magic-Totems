@@ -1,9 +1,5 @@
 {
   "variants": {
-    "facing=east": {
-      "model": "totemsofpower:block/underground_totem",
-      "y": 90
-    },
     "facing=north": {
       "model": "totemsofpower:block/underground_totem"
     },
@@ -14,6 +10,10 @@
     "facing=west": {
       "model": "totemsofpower:block/underground_totem",
       "y": 270
+    },
+    "facing=east": {
+      "model": "totemsofpower:block/underground_totem",
+      "y": 90
     }
   }
 }

@@ -8,9 +8,10 @@ import com.mojang.datafixers.util.Pair;
 
 import daripher.totems.init.TotemsTabs;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -40,17 +41,17 @@ public class TotemBlockItem extends BlockItem
 		
 		if (effectHidden)
 		{
-			components.add(Component.translatable("tooltip.totems.effect_hidden").withStyle(ChatFormatting.GRAY));
+			components.add(new TranslatableComponent("tooltip.totems.effect_hidden").withStyle(ChatFormatting.GRAY));
 			return;
 		}
 		
 		if (effect == null)
 		{
-			components.add(Component.translatable("effect.none").withStyle(ChatFormatting.GRAY));
+			components.add(new TranslatableComponent("effect.none").withStyle(ChatFormatting.GRAY));
 		}
 		else
 		{
-			MutableComponent mutablecomponent = Component.translatable(effect.getDescriptionId());
+			MutableComponent mutablecomponent = new TranslatableComponent(effect.getDescriptionId());
 			MobEffect mobeffect = effect.getEffect();
 			Map<Attribute, AttributeModifier> map = mobeffect.getAttributeModifiers();
 			
@@ -67,12 +68,12 @@ public class TotemBlockItem extends BlockItem
 			
 			if (effect.getAmplifier() > 0)
 			{
-				mutablecomponent = Component.translatable("potion.withAmplifier", mutablecomponent, Component.translatable("potion.potency." + effect.getAmplifier()));
+				mutablecomponent = new TranslatableComponent("potion.withAmplifier", mutablecomponent, new TranslatableComponent("potion.potency." + effect.getAmplifier()));
 			}
 			
 			if (effect.getDuration() > 20)
 			{
-				mutablecomponent = Component.translatable("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effect, 1.0F));
+				mutablecomponent = new TranslatableComponent("potion.withDuration", mutablecomponent, MobEffectUtil.formatDuration(effect, 1.0F));
 			}
 			
 			components.add(mutablecomponent.withStyle(mobeffect.getCategory().getTooltipFormatting()));
@@ -80,8 +81,8 @@ public class TotemBlockItem extends BlockItem
 		
 		if (!list1.isEmpty())
 		{
-			components.add(CommonComponents.EMPTY);
-			components.add(Component.translatable("potion.whenDrank").withStyle(ChatFormatting.DARK_PURPLE));
+			components.add(TextComponent.EMPTY);
+			components.add(new TranslatableComponent("potion.whenDrank").withStyle(ChatFormatting.DARK_PURPLE));
 			
 			for (Pair<Attribute, AttributeModifier> pair : list1)
 			{
@@ -100,14 +101,14 @@ public class TotemBlockItem extends BlockItem
 				
 				if (d0 > 0.0D)
 				{
-					components.add(Component.translatable("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							Component.translatable(pair.getFirst().getDescriptionId())).withStyle(ChatFormatting.BLUE));
+					components.add(new TranslatableComponent("attribute.modifier.plus." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+							new TranslatableComponent(pair.getFirst().getDescriptionId())).withStyle(ChatFormatting.BLUE));
 				}
 				else if (d0 < 0.0D)
 				{
 					d1 *= -1.0D;
-					components.add(Component.translatable("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
-							Component.translatable(pair.getFirst().getDescriptionId())).withStyle(ChatFormatting.RED));
+					components.add(new TranslatableComponent("attribute.modifier.take." + attributemodifier2.getOperation().toValue(), ItemStack.ATTRIBUTE_MODIFIER_FORMAT.format(d1),
+							new TranslatableComponent(pair.getFirst().getDescriptionId())).withStyle(ChatFormatting.RED));
 				}
 			}
 		}
@@ -116,8 +117,8 @@ public class TotemBlockItem extends BlockItem
 		{
 			int cooldown = stack.getOrCreateTag().getCompound("BlockEntityTag").getInt("MaxCooldown");
 			String formattedCooldown = StringUtil.formatTickDuration(cooldown);
-			components.add(CommonComponents.EMPTY);
-			components.add(Component.translatable("tooltip.totems.cooldown", formattedCooldown).withStyle(ChatFormatting.GRAY));
+			components.add(TextComponent.EMPTY);
+			components.add(new TranslatableComponent("tooltip.totems.cooldown", formattedCooldown).withStyle(ChatFormatting.GRAY));
 		}
 	}
 	

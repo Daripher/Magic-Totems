@@ -1,21 +1,15 @@
 {
   "type": "minecraft:block",
-  "functions": [
-    {
-      "function": "minecraft:copy_nbt",
-      "ops": [
-        {
-          "op": "replace",
-          "source": "Effect",
-          "target": "BlockEntityTag.Effect"
-        }
-      ],
-      "source": "block_entity"
-    }
-  ],
   "pools": [
     {
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "totemsofpower:surface_totem"
+        }
+      ],
       "conditions": [
         {
           "condition": "minecraft:match_tool",
@@ -30,14 +24,20 @@
             ]
           }
         }
-      ],
-      "entries": [
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "function": "minecraft:copy_nbt",
+      "source": "block_entity",
+      "ops": [
         {
-          "type": "minecraft:item",
-          "name": "totemsofpower:surface_totem"
+          "source": "Effect",
+          "target": "BlockEntityTag.Effect",
+          "op": "replace"
         }
-      ],
-      "rolls": 1.0
+      ]
     }
   ]
 }
