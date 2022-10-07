@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "totemsofpower:surface_totem"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}
