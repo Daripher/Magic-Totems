@@ -28,6 +28,7 @@ public class Config
 		public final ConfigValue<List<String>> blacklistedEffects;
 		public final ConfigValue<List<String>> whitelistedEffects;
 		public final ConfigValue<Boolean> excludeNegativeEffects;
+		public final ConfigValue<Boolean> playSounds;
 		
 		public Common(ForgeConfigSpec.Builder builder)
 		{
@@ -45,6 +46,7 @@ public class Config
 			blacklistedEffects = builder.define("blacklist", new ArrayList<String>());
 			whitelistedEffects = builder.define("whitelist", new ArrayList<String>());
 			excludeNegativeEffects = builder.define("exclude_negative", false);
+			playSounds = builder.define("play_sounds", true);
 			builder.pop();
 		}
 	}
