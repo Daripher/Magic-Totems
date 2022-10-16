@@ -108,7 +108,7 @@ public class TotemBlockEntity extends BlockEntity
 					playedSound = TotemsSounds.TOTEM_POSITIVE.get();
 				}
 				
-				player.level.playSound(player, worldPosition, playedSound, SoundSource.BLOCKS, 1.0F, 1.0F);
+				player.level.playSound(player, worldPosition, playedSound, SoundSource.BLOCKS, 0.7F, 1.0F);
 			}
 			
 			player.addEffect(getEffect());
