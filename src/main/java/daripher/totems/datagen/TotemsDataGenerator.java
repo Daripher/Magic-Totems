@@ -21,6 +21,7 @@ public class TotemsDataGenerator
 		{
 			dataGenerator.addProvider(new TotemsBlockStateProvider(dataGenerator, existingFileHelper));
 			dataGenerator.addProvider(new TotemsLanguageProvider(dataGenerator));
+			dataGenerator.addProvider(new TotemsSoundDefinitionsProvider(dataGenerator, existingFileHelper));
 		}
 		
 		if (event.includeServer())

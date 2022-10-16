@@ -1,0 +1,14 @@
+{
+  "totem_negative": {
+    "sounds": [
+      "totemsofpower:totem_negative"
+    ],
+    "subtitle": "totemsofpower.totem_negative.subtitle"
+  },
+  "totem_positive": {
+    "sounds": [
+      "totemsofpower:totem_positive"
+    ],
+    "subtitle": "totemsofpower.totem_positive.subtitle"
+  }
+}
