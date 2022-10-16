@@ -11,6 +11,11 @@
         },
         {
           "op": "replace",
+          "source": "EffectHidden",
+          "target": "BlockEntityTag.EffectHidden"
+        },
+        {
+          "op": "replace",
           "source": "Cooldown",
           "target": "BlockEntityTag.Cooldown"
         },
@@ -18,11 +23,6 @@
           "op": "replace",
           "source": "MaxCooldown",
           "target": "BlockEntityTag.MaxCooldown"
-        },
-        {
-          "op": "replace",
-          "source": "EffectHidden",
-          "target": "BlockEntityTag.EffectHidden"
         }
       ],
       "source": "block_entity"
