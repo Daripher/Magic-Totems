@@ -44,13 +44,6 @@ public class TotemBlockEntity extends BlockEntity
 	}
 	
 	@Override
-	public void onLoad()
-	{
-		super.onLoad();
-		generateRandomEffect();
-	}
-	
-	@Override
 	public void load(CompoundTag tag)
 	{
 		super.load(tag);
@@ -213,17 +206,7 @@ public class TotemBlockEntity extends BlockEntity
 				return;
 			}
 			
-			Random random;
-			
-			if (effectInstance == null)
-			{
-				random = new Random(getBlockPos().asLong());
-			}
-			else
-			{
-				random = new Random(effectInstance.hashCode());
-			}
-			
+			Random random = new Random();
 			List<MobEffect> effects = Config.AllowedEffects.EFFECTS_LIST;
 			effectHidden = Config.COMMON.mysteryIcon.get();
 			MobEffect effect = effects.get(random.nextInt(effects.size()));
