@@ -1,7 +1,7 @@
-// 1.19	2022-07-23T19:27:52.3676586	LootTables
-27ba91dcedcd5f3dfd8c3a0de4821d1e068b9962 data/totemsofpower/loot_tables/blocks/nether_totem.json
-27ba91dcedcd5f3dfd8c3a0de4821d1e068b9962 data/totemsofpower/loot_tables/blocks/nether_totem_top.json
-fc7c2b779638a777b3541865de94bf33802ab829 data/totemsofpower/loot_tables/blocks/surface_totem.json
-fc7c2b779638a777b3541865de94bf33802ab829 data/totemsofpower/loot_tables/blocks/surface_totem_top.json
-4e9ab4b734336fad342de3a823ff55a1782e77bf data/totemsofpower/loot_tables/blocks/underground_totem.json
-4e9ab4b734336fad342de3a823ff55a1782e77bf data/totemsofpower/loot_tables/blocks/underground_totem_top.json
+// 1.19	2022-10-16T16:12:16.111453	LootTables
+1fab665b86120a6b0c71e72de3a20cee888cffa2 data/totemsofpower/loot_tables/blocks/nether_totem.json
+1fab665b86120a6b0c71e72de3a20cee888cffa2 data/totemsofpower/loot_tables/blocks/nether_totem_top.json
+9e3aa44914d2a1593236ee49ad61f53f6d7578a2 data/totemsofpower/loot_tables/blocks/surface_totem.json
+9e3aa44914d2a1593236ee49ad61f53f6d7578a2 data/totemsofpower/loot_tables/blocks/surface_totem_top.json
+7b01777eb4f2e5f4d82c55e16e7f5fe50ac08b3d data/totemsofpower/loot_tables/blocks/underground_totem.json
+7b01777eb4f2e5f4d82c55e16e7f5fe50ac08b3d data/totemsofpower/loot_tables/blocks/underground_totem_top.json
