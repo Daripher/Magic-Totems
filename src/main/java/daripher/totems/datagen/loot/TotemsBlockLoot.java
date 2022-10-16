@@ -7,6 +7,7 @@ import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
+import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction.Builder;
 import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
 
 public class TotemsBlockLoot extends BlockLoot
@@ -24,7 +25,12 @@ public class TotemsBlockLoot extends BlockLoot
 	
 	private LootTable.Builder createTotemDrop(Block block)
 	{
-		return createSilkTouchOnlyTable(block).apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("Effect", "BlockEntityTag.Effect"));
+		Builder copyNbtFunction = CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY)
+				.copy("Effect", "BlockEntityTag.Effect")
+				.copy("EffectHidden", "BlockEntityTag.EffectHidden")
+				.copy("Cooldown", "BlockEntityTag.Cooldown")
+				.copy("MaxCooldown", "BlockEntityTag.MaxCooldown");
+		return createSilkTouchOnlyTable(block).apply(copyNbtFunction);
 	}
 	
 	@Override
