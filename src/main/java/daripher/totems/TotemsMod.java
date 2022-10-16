@@ -1,13 +1,7 @@
 package daripher.totems;
 
 import daripher.totems.config.Config;
-import daripher.totems.init.TotemsBiomeModifierSerializers;
-import daripher.totems.init.TotemsBiomeModifiers;
-import daripher.totems.init.TotemsBlockEntities;
-import daripher.totems.init.TotemsBlocks;
-import daripher.totems.init.TotemsConfiguredFeatures;
-import daripher.totems.init.TotemsItems;
-import daripher.totems.init.TotemsPlacedFeatures;
+import daripher.totems.init.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -30,5 +24,6 @@ public class TotemsMod
 		TotemsBiomeModifiers.REGISTRY.register(modEventBus);
 		TotemsConfiguredFeatures.REGISTRY.register(modEventBus);
 		TotemsPlacedFeatures.REGISTRY.register(modEventBus);
+		TotemsSounds.REGISTRY.register(modEventBus);
 	}
 }

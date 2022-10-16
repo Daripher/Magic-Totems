@@ -9,10 +9,13 @@ import javax.annotation.Nullable;
 import daripher.totems.config.Config;
 import daripher.totems.init.TotemsBlockEntities;
 import daripher.totems.init.TotemsBlocks;
+import daripher.totems.init.TotemsSounds;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.effect.MobEffect;
@@ -92,7 +95,19 @@ public class TotemBlockEntity extends BlockEntity
 	{
 		if (cooldown == 0)
 		{
+			SoundEvent playedSound;
+			
+			if (getEffect().getEffect().getCategory() == MobEffectCategory.HARMFUL)
+			{
+				playedSound = TotemsSounds.TOTEM_NEGATIVE.get();
+			}
+			else
+			{
+				playedSound = TotemsSounds.TOTEM_POSITIVE.get();
+			}
+			
 			player.addEffect(getEffect());
+			player.level.playSound(player, worldPosition, playedSound, SoundSource.BLOCKS, 1.0F, 1.0F);
 			cooldown = maxCooldown;
 			
 			if (effectHidden && Config.COMMON.revealAfterUse.get())

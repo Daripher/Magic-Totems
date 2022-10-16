@@ -36,6 +36,7 @@ public class TotemsDataGenerator
 		
 		dataGenerator.addProvider(event.includeClient(), new TotemsBlockStateProvider(dataGenerator, existingFileHelper));
 		dataGenerator.addProvider(event.includeClient(), new TotemsLanguageProvider(dataGenerator));
+		dataGenerator.addProvider(event.includeClient(), new TotemsSoundDefinitionsProvider(dataGenerator, existingFileHelper));
 		
 		dataGenerator.addProvider(event.includeServer(), new TotemsLootTableProvider(dataGenerator));
 		dataGenerator.addProvider(event.includeServer(), forDataPackRegistry(dataGenerator, existingFileHelper, Registry.PLACED_FEATURE_REGISTRY, TotemsPlacedFeatures.REGISTRY));
