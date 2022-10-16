@@ -95,19 +95,23 @@ public class TotemBlockEntity extends BlockEntity
 	{
 		if (cooldown == 0)
 		{
-			SoundEvent playedSound;
-			
-			if (getEffect().getEffect().getCategory() == MobEffectCategory.HARMFUL)
+			if (Config.COMMON.playSounds.get())
 			{
-				playedSound = TotemsSounds.TOTEM_NEGATIVE.get();
-			}
-			else
-			{
-				playedSound = TotemsSounds.TOTEM_POSITIVE.get();
+				SoundEvent playedSound;
+				
+				if (getEffect().getEffect().getCategory() == MobEffectCategory.HARMFUL)
+				{
+					playedSound = TotemsSounds.TOTEM_NEGATIVE.get();
+				}
+				else
+				{
+					playedSound = TotemsSounds.TOTEM_POSITIVE.get();
+				}
+				
+				player.level.playSound(player, worldPosition, playedSound, SoundSource.BLOCKS, 1.0F, 1.0F);
 			}
 			
 			player.addEffect(getEffect());
-			player.level.playSound(player, worldPosition, playedSound, SoundSource.BLOCKS, 1.0F, 1.0F);
 			cooldown = maxCooldown;
 			
 			if (effectHidden && Config.COMMON.revealAfterUse.get())
