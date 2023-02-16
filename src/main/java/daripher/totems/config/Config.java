@@ -33,10 +33,21 @@ public class Config {
 		public final ConfigValue<List<String>> whitelistedEffects;
 		public final ConfigValue<Boolean> excludeNegativeEffects;
 		public final ConfigValue<Boolean> playSounds;
+		public final ConfigValue<Integer> surfaceTotemsFrequency;
+		public final ConfigValue<Integer> netherTotemsFrequency;
+		public final ConfigValue<Integer> undergroundTotemsFrequency;
 
 		public Common(ForgeConfigSpec.Builder builder) {
 			Predicate<Object> positiveOrZeroInteger = o -> o instanceof Integer && (Integer) o >= 0;
 			Predicate<Object> positiveInteger = o -> o instanceof Integer && (Integer) o > 0;
+			builder.push("world_generation");
+			surfaceTotemsFrequency = builder.define("surface_totems_frequency", 7, positiveInteger);
+			netherTotemsFrequency = builder.define("nether_totems_frequency", 5, positiveInteger);
+			undergroundTotemsFrequency = builder.define("underground_totems_frequency", 30, positiveInteger);
+			builder.pop();
+			builder.push("totems");
+			playSounds = builder.define("play_sounds", true);
+			builder.pop();
 			builder.push("effects");
 			maxEffectAmplifier = builder.define("max_amplifier", 4, positiveOrZeroInteger);
 			minEffectDuration = builder.define("min_duration", 10, positiveInteger);
@@ -49,7 +60,6 @@ public class Config {
 			blacklistedEffects = builder.define("blacklist", new ArrayList<String>());
 			whitelistedEffects = builder.define("whitelist", new ArrayList<String>());
 			excludeNegativeEffects = builder.define("exclude_negative", false);
-			playSounds = builder.define("play_sounds", true);
 			builder.pop();
 		}
 	}
@@ -60,36 +70,37 @@ public class Config {
 
 		public static void initialize() {
 			var effects = ForgeRegistries.MOB_EFFECTS.getEntries().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+			EFFECTS_LIST.addAll(effects);
 			var effectWhitelist = Config.COMMON.whitelistedEffects.get();
 
 			if (!effectWhitelist.isEmpty()) {
-				var namespaceWhitelist = effectWhitelist.stream().map(s -> s.split(":")).filter(a -> a.length == 2 && a[1].equals("*")).map(a -> a[0]);
-
-				namespaceWhitelist.forEach(namespace -> {
-					effects.removeIf(effect -> !getId(effect).getNamespace().equals(namespace));
-				});
-
-				effects.removeIf(effect -> !effectWhitelist.contains(getId(effect).toString()));
+				var whitelistedNamespaces = getNamespaces(effectWhitelist);
+				Predicate<MobEffect> namespaceNotWhitelisted = effect -> !whitelistedNamespaces.contains(getId(effect).getNamespace());
+				Predicate<MobEffect> effectNotWhitelisted = effect -> !effectWhitelist.contains(getId(effect).toString());
+				EFFECTS_LIST.removeIf(effectNotWhitelisted.and(namespaceNotWhitelisted));
 			} else {
 				var effectBlacklist = Config.COMMON.blacklistedEffects.get();
 
 				if (!effectBlacklist.isEmpty()) {
-					var namespaceBlacklist = effectBlacklist.stream().map(s -> s.split(":")).filter(a -> a.length == 2 && a[1].equals("*")).map(a -> a[0]);
-
-					namespaceBlacklist.forEach(namespace -> {
-						effects.removeIf(effect -> getId(effect).getNamespace().equals(namespace));
-					});
-
-					effects.removeIf(effect -> effectBlacklist.contains(getId(effect).toString()));
+					var blacklistedNamespaces = getNamespaces(effectBlacklist);
+					Predicate<MobEffect> namespaceBlacklisted = effect -> blacklistedNamespaces.contains(getId(effect).getNamespace());
+					Predicate<MobEffect> effectBlacklisted = effect -> effectBlacklist.contains(getId(effect).toString());
+					EFFECTS_LIST.removeIf(effectBlacklisted.or(namespaceBlacklisted));
 				}
 			}
 
-			if (Config.COMMON.excludeNegativeEffects.get()) {
-				effects.removeIf(effect -> effect.getCategory() == MobEffectCategory.HARMFUL);
+			var excludeNegativeEffects = Config.COMMON.excludeNegativeEffects.get();
+
+			if (excludeNegativeEffects) {
+				Predicate<MobEffect> effectIsNegative = effect -> effect.getCategory() == MobEffectCategory.HARMFUL;
+				EFFECTS_LIST.removeIf(effectIsNegative);
 			}
 
-			EFFECTS_LIST.addAll(effects);
 			initialized = true;
+		}
+
+		private static List<String> getNamespaces(List<String> effectIds) {
+			return effectIds.stream().map(s -> s.split(":")).filter(a -> a.length == 2 && a[1].equals("*")).map(a -> a[0]).collect(Collectors.toList());
 		}
 
 		private static @Nullable ResourceLocation getId(MobEffect effect) {

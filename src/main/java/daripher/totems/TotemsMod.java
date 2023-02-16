@@ -7,7 +7,6 @@ import daripher.totems.init.TotemsBlockEntities;
 import daripher.totems.init.TotemsBlocks;
 import daripher.totems.init.TotemsConfiguredFeatures;
 import daripher.totems.init.TotemsItems;
-import daripher.totems.init.TotemsPlacedFeatures;
 import daripher.totems.init.TotemsSounds;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -27,7 +26,6 @@ public class TotemsMod {
 		TotemsBiomeModifierSerializers.REGISTRY.register(modEventBus);
 		TotemsBiomeModifiers.REGISTRY.register(modEventBus);
 		TotemsConfiguredFeatures.REGISTRY.register(modEventBus);
-		TotemsPlacedFeatures.REGISTRY.register(modEventBus);
 		TotemsSounds.REGISTRY.register(modEventBus);
 	}
 }
