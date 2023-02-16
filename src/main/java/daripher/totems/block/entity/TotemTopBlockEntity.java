@@ -12,64 +12,55 @@ import net.minecraft.util.datafix.fixes.References;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType.Builder;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class TotemTopBlockEntity extends BlockEntity
-{
+public class TotemTopBlockEntity extends BlockEntity {
 	private MobEffectInstance effectInstance;
-	
-	public TotemTopBlockEntity(BlockPos blockPos, BlockState blockState)
-	{
+
+	public TotemTopBlockEntity(BlockPos blockPos, BlockState blockState) {
 		super(TotemsBlockEntities.TOTEM_TOP.get(), blockPos, blockState);
 	}
-	
+
 	@Override
-	public void load(CompoundTag tag)
-	{
+	public void load(CompoundTag tag) {
 		super.load(tag);
 		effectInstance = MobEffectInstance.load(tag.getCompound("Effect"));
 	}
-	
+
 	@Override
-	protected void saveAdditional(CompoundTag tag)
-	{
+	protected void saveAdditional(CompoundTag tag) {
 		super.saveAdditional(tag);
 		tag.put("Effect", getEffect().save(new CompoundTag()));
 	}
-	
+
 	@Override
-	public ClientboundBlockEntityDataPacket getUpdatePacket()
-	{
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
 		return ClientboundBlockEntityDataPacket.create(this);
 	}
-	
+
 	@Override
-	public CompoundTag getUpdateTag()
-	{
+	public CompoundTag getUpdateTag() {
 		return saveWithoutMetadata();
 	}
-	
+
 	@Nullable
-	public MobEffectInstance getEffect()
-	{
-		TotemBlockEntity bottomBlockEntity = level.getBlockEntity(getBlockPos().below(), TotemsBlockEntities.TOTEM.get()).orElse(null);
-		
-		if (bottomBlockEntity != null)
-		{
+	public MobEffectInstance getEffect() {
+		var bottomBlockEntity = level.getBlockEntity(getBlockPos().below(), TotemsBlockEntities.TOTEM.get()).orElse(null);
+
+		if (bottomBlockEntity != null) {
 			effectInstance = bottomBlockEntity.getEffect();
 		}
-		
-		if (effectInstance == null)
-		{
+
+		if (effectInstance == null) {
 			return null;
 		}
-		
+
 		return new MobEffectInstance(effectInstance);
 	}
-	
-	public static BlockEntityType<TotemTopBlockEntity> createType()
-	{
-		return BlockEntityType.Builder.of(TotemTopBlockEntity::new, TotemsBlocks.SURFACE_TOTEM_TOP.get(), TotemsBlocks.UNDERGROUND_TOTEM_TOP.get(), TotemsBlocks.NETHER_TOTEM_TOP.get())
-				.build(Util.fetchChoiceType(References.BLOCK_ENTITY, "totem_top"));
+
+	public static BlockEntityType<TotemTopBlockEntity> createType() {
+		var builder = Builder.of(TotemTopBlockEntity::new, TotemsBlocks.SURFACE_TOTEM_TOP.get(), TotemsBlocks.UNDERGROUND_TOTEM_TOP.get(), TotemsBlocks.NETHER_TOTEM_TOP.get());
+		return builder.build(Util.fetchChoiceType(References.BLOCK_ENTITY, "totem_top"));
 	}
 }

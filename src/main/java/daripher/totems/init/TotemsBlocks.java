@@ -12,10 +12,9 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-public class TotemsBlocks
-{
+public class TotemsBlocks {
 	public static final DeferredRegister<Block> REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, TotemsMod.MOD_ID);
-	
+
 	public static final RegistryObject<Block> SURFACE_TOTEM = REGISTRY.register("surface_totem", SurfaceTotemBlock::new);
 	public static final RegistryObject<Block> UNDERGROUND_TOTEM = REGISTRY.register("underground_totem", UndergroundTotemBlock::new);
 	public static final RegistryObject<Block> NETHER_TOTEM = REGISTRY.register("nether_totem", NetherTotemBlock::new);
