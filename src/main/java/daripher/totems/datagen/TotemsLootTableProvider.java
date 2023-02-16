@@ -19,21 +19,17 @@ import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 
-public class TotemsLootTableProvider extends LootTableProvider
-{	
-	public TotemsLootTableProvider(DataGenerator generator)
-	{
+public class TotemsLootTableProvider extends LootTableProvider {
+	public TotemsLootTableProvider(DataGenerator generator) {
 		super(generator);
 	}
-	
+
 	@Override
-	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables()
-	{
+	protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, Builder>>>, LootContextParamSet>> getTables() {
 		return ImmutableList.of(Pair.of(TotemsBlockLoot::new, LootContextParamSets.BLOCK));
 	}
-	
+
 	@Override
-	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker)
-	{
+	protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
 	}
 }

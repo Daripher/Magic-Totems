@@ -9,14 +9,14 @@ import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.CountPlacement;
 import net.minecraft.world.level.levelgen.placement.HeightRangePlacement;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraftforge.registries.RegistryObject;
 
-public class TotemsPlacedFeature
-{
-	public static PlacedFeature create(RegistryObject<ConfiguredFeature<?, ?>> configuredFetureObject, int count)
-	{
-		List<PlacementModifier> placementModifiers = List.of(CountPlacement.of(count), HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top()), BiomeFilter.biome());
+public class TotemsPlacedFeature {
+	public static PlacedFeature create(RegistryObject<ConfiguredFeature<?, ?>> configuredFetureObject, int count) {
+		var countPlacement = CountPlacement.of(count);
+		var heightRangePlacement = HeightRangePlacement.uniform(VerticalAnchor.bottom(), VerticalAnchor.top());
+		var biomeFilter = BiomeFilter.biome();
+		var placementModifiers = List.of(countPlacement, heightRangePlacement, biomeFilter);
 		return new PlacedFeature(Holder.direct(configuredFetureObject.get()), placementModifiers);
 	}
 }

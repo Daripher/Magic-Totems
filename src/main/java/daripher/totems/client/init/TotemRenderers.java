@@ -11,11 +11,9 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @EventBusSubscriber(modid = TotemsMod.MOD_ID, bus = Bus.MOD, value = Dist.CLIENT)
-public class TotemRenderers
-{
+public class TotemRenderers {
 	@SubscribeEvent
-	public static void onClientSetup(FMLClientSetupEvent event)
-	{
+	public static void registerRenderers(FMLClientSetupEvent event) {
 		BlockEntityRenderers.register(TotemsBlockEntities.TOTEM.get(), TotemEffectRenderer::new);
 	}
 }
