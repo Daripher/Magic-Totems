@@ -58,10 +58,14 @@ public class TotemBlockEntity extends BlockEntity {
 
 	@Override
 	public void saveToItem(ItemStack stack) {
-		stack.getOrCreateTagElement("BlockEntityTag").put("Effect", getEffect().save(new CompoundTag()));
-		stack.getOrCreateTagElement("BlockEntityTag").putInt("Cooldown", cooldown);
-		stack.getOrCreateTagElement("BlockEntityTag").putInt("MaxCooldown", maxCooldown);
-		stack.getOrCreateTagElement("BlockEntityTag").putBoolean("EffectHidden", effectHidden);
+		var effect = getEffect();
+
+		if (effect != null) {
+			stack.getOrCreateTagElement("BlockEntityTag").put("Effect", effect.save(new CompoundTag()));
+			stack.getOrCreateTagElement("BlockEntityTag").putInt("Cooldown", cooldown);
+			stack.getOrCreateTagElement("BlockEntityTag").putInt("MaxCooldown", maxCooldown);
+			stack.getOrCreateTagElement("BlockEntityTag").putBoolean("EffectHidden", effectHidden);
+		}
 	}
 
 	@Override
