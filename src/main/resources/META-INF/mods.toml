@@ -4,7 +4,7 @@ license="All rights reserved"
 
 [[mods]]
 	modId="totemsofpower"
-	version="1.4"
+	version="1.4a"
 	displayName="Magic Totems"
 	authors="Daripher"
 	description='''Totems endowed with magical powers'''
